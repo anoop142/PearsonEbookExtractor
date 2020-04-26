@@ -11,7 +11,7 @@ Note:  Please don't use this for piracy.
 
 
 ## Using this utility
-The book you wish extract must be downloaded / offline in the Pearson Library Android app.
+The book you wish to extract must be downloaded / offline in the Pearson Library Android app.
 
 Two modes of operation **root** and **no-root**, default is no-root.
 
