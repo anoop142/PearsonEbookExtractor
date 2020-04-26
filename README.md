@@ -5,6 +5,7 @@ Note:  Please don't use this for piracy.
 
 ## Requirements/Installation:
 **adb**
+
 **java** for no-root mode.
 
 Linux:
