@@ -8,13 +8,7 @@ Note:  Please don't use this for piracy.
 
 **java** for no-root mode.
 
-Linux:
-```
-python3 -m pip install -r requirements.txt
-```
 
-Windows:
-It should work, not tested.
 
 ## Using this utility
 The book you wish extract must be downloaded / offline in the Pearson Library Android app.
