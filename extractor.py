@@ -26,6 +26,7 @@ def root():
              subprocess.call(['adb','shell','su', '-c', 'cp',android_path+i,tmp_book_path ],)
              subprocess.call(['adb','shell','su', '-c', 'chown','shell.shell',tmp_book_path+i ],)
              subprocess.call(['adb','pull', tmp_book_path+i, out_dir],)
+             print(GREEN+'Finished'+WHITE)
     else:
         print("Files exist!")
 
@@ -44,7 +45,7 @@ def noroot():
         shutil.copyfile(f,out_dir+i)
     # clean
     shutil.rmtree(tmp_dir)
-    print('Finished')
+    print(GREEN+'Finished'+WHITE)
 
 
 
@@ -64,7 +65,7 @@ parser.add_argument(
     dest='out_dir',
     default=default_dir,
     action='store')
-
+# start
 args = parser.parse_args()
 out_dir = os.path.abspath(args.out_dir)+'/'
 os.makedirs(out_dir,exist_ok=True)
