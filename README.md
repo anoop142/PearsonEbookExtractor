@@ -6,8 +6,6 @@ Note:  Please don't use this for piracy.
 ## Requirements/Installation:
 **adb**
 
-**java** for no-root mode.
-
 
 
 ## Using this utility
@@ -26,7 +24,7 @@ python3 extractor.py [--root] [-o path]
 eg:
 
 ```
-python3 extractor.py -o ~
+python3 extractor.py 
 ```
 
 optional arguments:
@@ -39,10 +37,4 @@ _Note_
 
 Default location for extracted books is 'books'.
 
-## Credits
-Nikolay Elenkov 
-
-for android back up extracor
-
-https://github.com/nelenkov/android-backup-extractor
 
