@@ -6,10 +6,11 @@ import tarfile
 import shutil
 from sys import argv
 import argparse
+import zlib
 WHITE = '\033[m' 
 GREEN = '\033[32m'
 ver=1.0
-print('Pearson ebook extractor ver','ver by Anoop')
+print('Pearson ebook extractor ver',ver,' by Anoop')
 default_dir=os.path.dirname(os.path.abspath(argv[0]))+'/books'
 tmp_dir=os.path.dirname(os.path.abspath(argv[0]))+'/tmp/'
 android_path="/data/data/com.pearson.android.pulse.elibrary/files/books/"
@@ -31,12 +32,15 @@ def root():
         print("Files exist!")
 
 def noroot():
-    script_path=os.path.dirname(os.path.abspath(argv[0]))
     os.makedirs(tmp_dir,exist_ok=True)
-    abe=script_path+'/bin/abe-all.jar'
     app_package_name='com.pearson.android.pulse.elibrary'
     subprocess.call(['adb','backup', '-f', tmp_dir+'books.ab', app_package_name],)
-    subprocess.call(['java','-jar', abe, 'unpack', tmp_dir+'books.ab', tmp_dir+'books.tar'],)
+    with open(tmp_dir+'books.ab', 'rb') as f:
+        f.seek(24) 
+        data = f.read()
+    tar_file= zlib.decompress(data)
+    with open(tmp_dir+"books.tar","wb" ) as f:
+        f.write(tar_file)
     f = tarfile.open(tmp_dir+"books.tar")
     f.extractall(path=tmp_dir)
     files = os.listdir(tmp_dir+'apps/com.pearson.android.pulse.elibrary/f/books' )
