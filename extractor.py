@@ -35,12 +35,7 @@ def noroot():
     os.makedirs(tmp_dir,exist_ok=True)
     app_package_name='com.pearson.android.pulse.elibrary'
     subprocess.call(['adb','backup', '-f', tmp_dir+'books.ab', app_package_name],)
-    with open(tmp_dir+'books.ab', 'rb') as f:
-        f.seek(24) 
-        data = f.read()
-    tar_file= zlib.decompress(data)
-    with open(tmp_dir+"books.tar","wb" ) as f:
-        f.write(tar_file)
+    decompress_zlib(tmp_dir+'books.ab',tmp_dir+'books.tar')
     f = tarfile.open(tmp_dir+"books.tar")
     f.extractall(path=tmp_dir)
     files = os.listdir(tmp_dir+'apps/com.pearson.android.pulse.elibrary/f/books' )
@@ -51,6 +46,16 @@ def noroot():
     shutil.rmtree(tmp_dir)
     print(GREEN+'Finished'+WHITE)
 
+
+def decompress_zlib(in_file,out_file):
+    with open(in_file,"rb") as f , open(out_file,"wb") as o:
+        data = zlib.decompressobj()
+        f.seek(24)
+        buf = f.read(4096)
+        while buf:
+            o.write(data.decompress(buf))
+            buf = f.read(4096)
+        data.flush()
 
 
 # CLI
