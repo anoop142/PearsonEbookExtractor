@@ -15,7 +15,7 @@ The book you wish to extract must be downloaded / offline in the Pearson Library
 
 Two modes of operation **root** and **no-root**, default is no-root.
 
-**Root mode**:  Pulls pdf from /data/data/com.pearson.android.pulse.elibrary/files/books using adb, will skip if file already exist.
+**Root mode**: Device must be rooted! . Pulls pdf from /data/data/com.pearson.android.pulse.elibrary/files/books using adb, will skip if file already exist.
 
 **No-root mode**: Uses adb backup to make backup of the app and extract the books from the backup.
 
