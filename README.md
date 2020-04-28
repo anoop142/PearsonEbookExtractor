@@ -6,7 +6,9 @@ Note:  Please don't use this for piracy.
 ## Requirements/Installation:
 **adb**
 
-
+```
+python3 -m pip install -r requirements.txt
+```
 
 ## Using this utility
 The book you wish to extract must be downloaded / offline in the Pearson Library Android app.
@@ -32,6 +34,7 @@ optional arguments:
   -h, --help  show this help message and exit
   --root      root method to extract pdf.
   -o path     output dir
+  -n, --name  rename pdf using metadata.
 ```
 _Note_
 
