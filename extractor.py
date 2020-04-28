@@ -42,7 +42,7 @@ def noroot():
     files = os.listdir(tmp_dir+'apps/com.pearson.android.pulse.elibrary/f/books' )
     for i in files:
         f = tmp_dir+'apps/com.pearson.android.pulse.elibrary/f/books/'+i
-        shutil.copyfile(f,out_dir+i)
+        shutil.move(f,out_dir+i)
     # clean
     shutil.rmtree(tmp_dir)
     
