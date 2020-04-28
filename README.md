@@ -21,7 +21,7 @@ Two modes of operation **root** and **no-root**, default is no-root.
 
 run this script as follows:
 ```
-python3 extractor.py [--root] [-o path]
+python3 extractor.py [--root] [--name] [-o path]
 ```
 eg:
 
