@@ -7,6 +7,8 @@ import shutil
 from sys import argv
 import argparse
 import zlib
+import re
+from PyPDF2 import PdfFileReader
 WHITE = '\033[m' 
 GREEN = '\033[32m'
 ver=1.0
@@ -27,7 +29,6 @@ def root():
              subprocess.call(['adb','shell','su', '-c', 'cp',android_path+i,tmp_book_path ],)
              subprocess.call(['adb','shell','su', '-c', 'chown','shell.shell',tmp_book_path+i ],)
              subprocess.call(['adb','pull', tmp_book_path+i, out_dir],)
-             print(GREEN+'Finished'+WHITE)
     else:
         print("Files exist!")
 
@@ -44,7 +45,7 @@ def noroot():
         shutil.copyfile(f,out_dir+i)
     # clean
     shutil.rmtree(tmp_dir)
-    print(GREEN+'Finished'+WHITE)
+    
 
 
 def decompress_zlib(in_file,out_file):
@@ -57,6 +58,26 @@ def decompress_zlib(in_file,out_file):
             buf = f.read(4096)
         data.flush()
 
+def get_pdf_list(path):
+    files = os.listdir(path)
+    pdf_files = [ i for i in files if i.endswith(".pdf")]
+    return pdf_files
+
+def rename_pdf(pdf_list):
+    for i in pdf_list:
+        pdf_file = out_dir+i
+        with open(pdf_file, 'rb') as f:
+            info = PdfFileReader(f).getDocumentInfo()
+        author = info.author
+        title = info.title
+        if not author or not title:
+            continue
+        new_name = title+'-'+author
+        new_name = re.sub("[^a-zA-Z0-9-]+", " ", new_name)
+        if len(new_name) > 80:
+            continue
+        new_name = out_dir+new_name+".pdf"
+        os.rename(pdf_file,new_name)
 
 # CLI
 parser = argparse.ArgumentParser(
@@ -68,6 +89,13 @@ parser.add_argument(
     action='store_true')
 
 parser.add_argument(
+    '--name',
+    '-n',
+    dest='rename',
+    help='rename pdf using metadata.',
+    action='store_true')
+
+parser.add_argument(
     '-o',
     metavar='path',
     help='output dir',
@@ -75,15 +103,19 @@ parser.add_argument(
     default=default_dir,
     action='store')
 # start
-args = parser.parse_args()
-out_dir = os.path.abspath(args.out_dir)+'/'
-os.makedirs(out_dir,exist_ok=True)
-
-if args.root_mode:
-    root()
-else:
-    noroot()
-
+if __name__ == '__main__':
+    args = parser.parse_args()
+    out_dir = os.path.abspath(args.out_dir)+'/'
+    os.makedirs(out_dir,exist_ok=True)
+    if args.root_mode:
+        root()
+    else:
+        noroot()
+        
+    if args.rename:
+        pdf_list = get_pdf_list(out_dir)
+        rename_pdf(pdf_list)
+    print(GREEN+'Finished'+WHITE)
 
 
         
