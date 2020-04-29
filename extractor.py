@@ -4,7 +4,7 @@ import os
 import subprocess
 import tarfile
 import shutil
-from sys import argv
+import sys
 import argparse
 import zlib
 import re
@@ -13,16 +13,19 @@ WHITE = '\033[m'
 GREEN = '\033[32m'
 ver=1.0
 print('Pearson ebook extractor ver',ver,' by Anoop')
-default_dir=os.path.dirname(os.path.abspath(argv[0]))+'/books'
-tmp_dir=os.path.dirname(os.path.abspath(argv[0]))+'/tmp/'
+default_dir=os.path.dirname(os.path.abspath(sys.argv[0]))+'/books'
+tmp_dir=os.path.dirname(os.path.abspath(sys.argv[0]))+'/tmp/'
 android_path="/data/data/com.pearson.android.pulse.elibrary/files/books/"
 
 
 def root():
     tmp_book_path='/data/local/tmp/'
-    downloaded_list_pc=os.listdir(out_dir)
+    downloaded_list_pc = [i for i in os.listdir(out_dir) if i.endswith(".pdf")]
     downloaded_list_device=subprocess.Popen(['adb','shell',"su -c ls /data/data/com.pearson.android.pulse.elibrary/files/books"],stdout=subprocess.PIPE,stderr=subprocess.STDOUT)
     downloaded_list_device  = downloaded_list_device.stdout.read().decode().split()
+    if not downloaded_list_device:
+        print("No PDF found on android device!.")
+        sys.exit()
     files_to_pull=[i for i in downloaded_list_device if i not in downloaded_list_pc]
     if files_to_pull:
          for i in files_to_pull:
