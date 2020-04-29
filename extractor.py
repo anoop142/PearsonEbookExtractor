@@ -13,7 +13,7 @@ WHITE = '\033[m'
 GREEN = '\033[32m'
 RED = '\033[31m'
 YELLOW = '\033[33m'
-ver=1.0
+ver=2.0
 print('Pearson ebook extractor ver',ver,' by Anoop')
 default_dir=os.path.dirname(os.path.abspath(sys.argv[0]))+'/books'
 tmp_dir=os.path.dirname(os.path.abspath(sys.argv[0]))+'/tmp/'
