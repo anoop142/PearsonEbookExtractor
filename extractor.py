@@ -35,6 +35,10 @@ def root():
              subprocess.call(['adb','shell','su', '-c', 'chown','shell.shell',tmp_book_path+i ],)
              subprocess.call(['adb','pull', tmp_book_path+i, out_dir],)
              subprocess.call(['adb','shell','su', '-c', 'rm',tmp_book_path+i ],)
+        # rename
+         if args.rename:
+             rename_pdf(files_to_pull)
+         print(GREEN+'Finished'+WHITE)
     else:
         print(YELLOW+"All files trying to extract already exist.!"+WHITE)
 
@@ -51,6 +55,11 @@ def noroot():
         shutil.move(f,out_dir+i)
     # clean
     shutil.rmtree(tmp_dir)
+    # rename
+    if args.rename:
+        pdf_list = get_pdf_list(out_dir)
+        rename_pdf(pdf_list)
+    print(GREEN+'Finished'+WHITE)
     
 
 
@@ -118,10 +127,10 @@ if __name__ == '__main__':
     else:
         noroot()
         
-    if args.rename:
-        pdf_list = get_pdf_list(out_dir)
-        rename_pdf(pdf_list)
-    print(GREEN+'Finished'+WHITE)
+    
+        
+        
+    
 
 
         
