@@ -11,6 +11,8 @@ import re
 from PyPDF2 import PdfFileReader
 WHITE = '\033[m' 
 GREEN = '\033[32m'
+RED = '\033[31m'
+YELLOW = '\033[33m'
 ver=1.0
 print('Pearson ebook extractor ver',ver,' by Anoop')
 default_dir=os.path.dirname(os.path.abspath(sys.argv[0]))+'/books'
@@ -24,7 +26,7 @@ def root():
     downloaded_list_device=subprocess.Popen(['adb','shell',"su -c ls /data/data/com.pearson.android.pulse.elibrary/files/books"],stdout=subprocess.PIPE,stderr=subprocess.STDOUT)
     downloaded_list_device  = downloaded_list_device.stdout.read().decode().split()
     if not downloaded_list_device:
-        print("No PDF found on android device!.")
+        print(RED+"No PDF found on android device!."+WHITE)
         sys.exit()
     files_to_pull=[i for i in downloaded_list_device if i not in downloaded_list_pc]
     if files_to_pull:
@@ -34,7 +36,7 @@ def root():
              subprocess.call(['adb','pull', tmp_book_path+i, out_dir],)
              subprocess.call(['adb','shell','su', '-c', 'rm',tmp_book_path+i ],)
     else:
-        print("Files exist!")
+        print(YELLOW+"All files trying to extract already exist.!"+WHITE)
 
 def noroot():
     os.makedirs(tmp_dir,exist_ok=True)
