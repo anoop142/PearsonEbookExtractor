@@ -5,7 +5,10 @@ Note:  Please don't use this for piracy.
 
 ## Requirements/Installation:
 **adb**
-
+```
+sudo apt install android-tools-adb
+```
+**PyPDF2**
 ```
 python3 -m pip install -r requirements.txt
 ```
