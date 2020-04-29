@@ -19,16 +19,17 @@ android_path="/data/data/com.pearson.android.pulse.elibrary/files/books/"
 
 
 def root():
+    tmp_book_path='/data/local/tmp/'
     downloaded_list_pc=os.listdir(out_dir)
     downloaded_list_device=subprocess.Popen(['adb','shell',"su -c ls /data/data/com.pearson.android.pulse.elibrary/files/books"],stdout=subprocess.PIPE,stderr=subprocess.STDOUT)
     downloaded_list_device  = downloaded_list_device.stdout.read().decode().split()
     files_to_pull=[i for i in downloaded_list_device if i not in downloaded_list_pc]
     if files_to_pull:
          for i in files_to_pull:
-             tmp_book_path='/data/local/tmp/'
              subprocess.call(['adb','shell','su', '-c', 'cp',android_path+i,tmp_book_path ],)
              subprocess.call(['adb','shell','su', '-c', 'chown','shell.shell',tmp_book_path+i ],)
              subprocess.call(['adb','pull', tmp_book_path+i, out_dir],)
+             subprocess.call(['adb','shell','su', '-c', 'rm',tmp_book_path+i ],)
     else:
         print("Files exist!")
 
