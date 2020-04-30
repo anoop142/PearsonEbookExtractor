@@ -35,6 +35,10 @@ def root():
              subprocess.call(['adb','shell','su', '-c', 'chown','shell.shell',tmp_book_path+i ],)
              subprocess.call(['adb','pull', tmp_book_path+i, out_dir],)
              subprocess.call(['adb','shell','su', '-c', 'rm',tmp_book_path+i ],)
+
+        # rm corrupt pdf     
+         if not args.keep_corrupt:
+             remove_corrupt_pdf(files_to_pull)
         # rename
          if args.rename:
              rename_pdf(files_to_pull)
@@ -55,9 +59,12 @@ def noroot():
         shutil.move(f,out_dir+i)
     # clean
     shutil.rmtree(tmp_dir)
+    # rm corrupt pdf
+    pdf_list = get_pdf_list(out_dir)
+    if not args.keep_corrupt:
+        remove_corrupt_pdf(pdf_list)
     # rename
     if args.rename:
-        pdf_list = get_pdf_list(out_dir)
         rename_pdf(pdf_list)
     print(GREEN+'Finished'+WHITE)
     
@@ -94,6 +101,19 @@ def rename_pdf(pdf_list):
         new_name = out_dir+new_name+".pdf"
         os.rename(pdf_file,new_name)
 
+def remove_corrupt_pdf(pdf_list):
+    for i in pdf_list:
+        try:
+            PdfFileReader(out_dir+i, "rb")
+        except:
+            print_k_flag=1
+            os.remove(out_dir+i)
+            print(RED+i, 'is corrupted!. hence deleted'+WHITE)
+    if print_k_flag:
+        print("use -k flag to keep corrupted pdf!")
+
+
+
 # CLI
 parser = argparse.ArgumentParser(
     description='Pearson Ebook extractor by Anoop. A script to extract ebooks downloaded by Pearson Android app.')
@@ -117,6 +137,13 @@ parser.add_argument(
     dest='out_dir',
     default=default_dir,
     action='store')
+
+parser.add_argument(
+    '-k',
+    help='keep corrupt pdf files',
+    dest='keep_corrupt',
+    action='store_true')
+
 # start
 if __name__ == '__main__':
     args = parser.parse_args()
@@ -126,8 +153,8 @@ if __name__ == '__main__':
         root()
     else:
         noroot()
-        
     
+        
         
         
     
