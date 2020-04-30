@@ -16,6 +16,7 @@ python3 -m pip install -r requirements.txt
 ## Using this utility
 The book you wish to extract must be downloaded / offline in the Pearson Library Android app.
 
+
 Two modes of operation **root** and **no-root**, default is no-root.
 
 **Root mode**: Device must be rooted! . Pulls pdf from /data/data/com.pearson.android.pulse.elibrary/files/books using adb, will skip if file already exist.
@@ -43,5 +44,8 @@ optional arguments:
 _Note_
 
 Default location for extracted books is 'books'.
+
+The script can rename the books extracted using the metadata from the pdf, however it may not work on all cases. 
+
 
 
