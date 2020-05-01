@@ -130,7 +130,7 @@ parser.add_argument(
     '--name',
     '-n',
     dest='rename',
-    help='rename pdf using metadata.',
+    help='auto-rename pdf using metadata.',
     action='store_true')
 
 parser.add_argument(
