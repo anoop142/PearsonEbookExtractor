@@ -38,7 +38,7 @@ optional arguments:
   -h, --help  show this help message and exit
   --root      root method to extract pdf.
   -o path     output dir
-  -n, --name  rename pdf using metadata.
+  -n, --name  auto-rename pdf using metadata.
   -k          keep corrupt pdf files.
 ```
 _Note_
