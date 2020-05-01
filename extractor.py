@@ -87,19 +87,22 @@ def get_pdf_list(path):
 
 def rename_pdf(pdf_list):
     for i in pdf_list:
-        pdf_file = out_dir+i
-        with open(pdf_file, 'rb') as f:
-            info = PdfFileReader(f).getDocumentInfo()
-        author = info.author
-        title = info.title
-        if not author or not title:
+        try:
+            pdf_file = out_dir+i
+            with open(pdf_file, 'rb') as f:
+                info = PdfFileReader(f).getDocumentInfo()
+            author = info.author
+            title = info.title
+            if not author or not title:
+                continue
+            new_name = title+'-'+author
+            new_name = re.sub("[^a-zA-Z0-9-]+", " ", new_name)
+            if len(new_name) > 80:
+                continue
+            new_name = out_dir+new_name+".pdf"
+            os.rename(pdf_file,new_name)
+        except:
             continue
-        new_name = title+'-'+author
-        new_name = re.sub("[^a-zA-Z0-9-]+", " ", new_name)
-        if len(new_name) > 80:
-            continue
-        new_name = out_dir+new_name+".pdf"
-        os.rename(pdf_file,new_name)
 
 def remove_corrupt_pdf(pdf_list):
     for i in pdf_list:
