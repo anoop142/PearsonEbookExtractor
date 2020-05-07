@@ -25,7 +25,7 @@ Two modes of operation **root** and **no-root**, default is no-root.
 
 run this script as follows:
 ```
-python3 extractor.py [--root] [--name] [-o path]
+python3 extractor.py [--root] [--no-rename] [-k] [-o path]
 ```
 eg:
 
@@ -38,14 +38,14 @@ optional arguments:
   -h, --help  show this help message and exit
   --root      root method to extract pdf.
   -o path     output dir
-  -n, --name  auto-rename pdf using metadata.
+  --no-rename  dont rename pdf using metadata.
   -k          keep corrupt pdf files.
 ```
 _Note_
 
 Default location for extracted books is 'books'.
 
-The script can rename the books extracted using the metadata from the pdf, however it may not work on all cases. 
+The script will try to rename the books using the pdf metadata by default , however it may not work always.
 
 
 
