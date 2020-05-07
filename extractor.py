@@ -40,7 +40,7 @@ def root():
          if not args.keep_corrupt:
              remove_corrupt_pdf(files_to_pull)
         # rename
-         if args.rename:
+         if args.no_rename:
              rename_pdf(files_to_pull)
          print(GREEN+'Finished'+WHITE)
     else:
@@ -64,7 +64,7 @@ def noroot():
     if not args.keep_corrupt:
         remove_corrupt_pdf(pdf_list)
     # rename
-    if args.rename:
+    if not args.no_rename:
         rename_pdf(pdf_list)
     print(GREEN+'Finished'+WHITE)
     
@@ -127,10 +127,9 @@ parser.add_argument(
     action='store_true')
 
 parser.add_argument(
-    '--name',
-    '-n',
-    dest='rename',
-    help='auto-rename pdf using metadata.',
+    '--no-rename',
+    dest='no_rename',
+    help='dont rename pdf using metadata.',
     action='store_true')
 
 parser.add_argument(
