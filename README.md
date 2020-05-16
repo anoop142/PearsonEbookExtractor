@@ -1,6 +1,8 @@
 # PearsonEbookExtractor
 ## This script extracts E-Books  downloaded by pearson library Android app.
 
+Pearson Android app lets us read books offline, but it doesn't allow us to export the pdf.
+
 Note:  Please don't use this for piracy.
 
 ## Requirements/Installation:
