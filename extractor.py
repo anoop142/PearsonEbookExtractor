@@ -105,6 +105,7 @@ def rename_pdf(pdf_list):
             continue
 
 def remove_corrupt_pdf(pdf_list):
+    print_k_flag = 0
     for i in pdf_list:
         try:
             PdfFileReader(out_dir+i, "rb")
