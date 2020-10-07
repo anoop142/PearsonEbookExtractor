@@ -40,7 +40,7 @@ def root():
          if not args.keep_corrupt:
              remove_corrupt_pdf(files_to_pull)
         # rename
-         if args.no_rename:
+         if not args.no_rename:
              rename_pdf(files_to_pull)
          print(GREEN+'Finished'+WHITE)
     else:
