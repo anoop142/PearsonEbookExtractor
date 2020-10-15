@@ -17,13 +17,14 @@ ver=2.0
 print('Pearson ebook extractor ver',ver,' by Anoop')
 default_dir=os.path.dirname(os.path.abspath(sys.argv[0]))+'/books'
 tmp_dir=os.path.dirname(os.path.abspath(sys.argv[0]))+'/tmp/'
-android_path="/data/data/com.pearson.android.pulse.elibrary/files/books/"
+app_android_path="/data/data/com.pearson.android.pulse.elibrary/files/books/"
+app_package_name='com.pearson.android.pulse.elibrary'
 
 
 def root():
     tmp_book_path='/data/local/tmp/'
     downloaded_list_pc = [i for i in os.listdir(out_dir) if i.endswith(".pdf")]
-    downloaded_list_device=subprocess.Popen(['adb','shell',"su -c ls /data/data/com.pearson.android.pulse.elibrary/files/books"],stdout=subprocess.PIPE,stderr=subprocess.STDOUT)
+    downloaded_list_device=subprocess.Popen(['adb','shell',"su -c ls",app_android_path],stdout=subprocess.PIPE,stderr=subprocess.STDOUT)
     downloaded_list_device  = downloaded_list_device.stdout.read().decode().split()
     if not downloaded_list_device:
         print(RED+"No PDF found on android device!."+WHITE)
@@ -31,7 +32,7 @@ def root():
     files_to_pull=[i for i in downloaded_list_device if i not in downloaded_list_pc]
     if files_to_pull:
          for i in files_to_pull:
-             subprocess.call(['adb','shell','su', '-c', 'cp',android_path+i,tmp_book_path ],)
+             subprocess.call(['adb','shell','su', '-c', 'cp',app_android_path+i,tmp_book_path ],)
              subprocess.call(['adb','shell','su', '-c', 'chown','shell.shell',tmp_book_path+i ],)
              subprocess.call(['adb','pull', tmp_book_path+i, out_dir],)
              subprocess.call(['adb','shell','su', '-c', 'rm',tmp_book_path+i ],)
@@ -48,14 +49,13 @@ def root():
 
 def noroot():
     os.makedirs(tmp_dir,exist_ok=True)
-    app_package_name='com.pearson.android.pulse.elibrary'
     subprocess.call(['adb','backup', '-f', tmp_dir+'books.ab', app_package_name],)
     decompress_zlib(tmp_dir+'books.ab',tmp_dir+'books.tar')
     f = tarfile.open(tmp_dir+"books.tar")
     f.extractall(path=tmp_dir)
-    files = os.listdir(tmp_dir+'apps/com.pearson.android.pulse.elibrary/f/books' )
+    files = os.listdir(tmp_dir+'apps/'+app_package_name+'/f/books' )
     for i in files:
-        f = tmp_dir+'apps/com.pearson.android.pulse.elibrary/f/books/'+i
+        f = tmp_dir+'apps/'+app_package_name+'/f/books/'+i
         shutil.move(f,out_dir+i)
     # clean
     shutil.rmtree(tmp_dir)
