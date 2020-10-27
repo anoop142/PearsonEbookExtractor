@@ -21,6 +21,14 @@ app_android_path="/data/data/com.pearson.android.pulse.elibrary/files/books/"
 app_package_name='com.pearson.android.pulse.elibrary'
 
 
+def start_adb_server():
+    device = subprocess.Popen(['adb','devices'],stdout=subprocess.PIPE,stderr=subprocess.STDOUT)
+    device  = device.stdout.read().decode().split()
+    if device[-1] != "device":
+        print("No devices / emulator found")
+        sys.exit(1)
+
+
 def root():
     tmp_book_path='/data/local/tmp/'
     downloaded_list_pc = [i for i in os.listdir(out_dir) if i.endswith(".pdf")]
@@ -152,6 +160,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
     out_dir = os.path.abspath(args.out_dir)+'/'
     os.makedirs(out_dir,exist_ok=True)
+    start_adb_server()
     if args.root_mode:
         root()
     else:
