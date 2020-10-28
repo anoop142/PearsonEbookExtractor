@@ -41,7 +41,7 @@ optional arguments:
   --root      root method to extract pdf.
   -o path     output dir
   --no-rename  dont rename pdf using metadata.
-  -k          keep corrupt pdf files.
+  --rm-corrupt  remove corrupt pdf files
 ```
 _Note_
 
