@@ -46,7 +46,7 @@ def root():
              subprocess.call(['adb','shell','su', '-c', 'rm',tmp_book_path+i ],)
 
         # rm corrupt pdf     
-         if not args.keep_corrupt:
+         if args.remove_corrupt:
              remove_corrupt_pdf(files_to_pull)
         # rename
          if not args.no_rename:
@@ -69,7 +69,7 @@ def noroot():
     shutil.rmtree(tmp_dir)
     # rm corrupt pdf
     pdf_list = get_pdf_list(out_dir)
-    if not args.keep_corrupt:
+    if  args.remove_corrupt:
         remove_corrupt_pdf(pdf_list)
     # rename
     if not args.no_rename:
@@ -115,14 +115,14 @@ def rename_pdf(pdf_list):
 def remove_corrupt_pdf(pdf_list):
     print_k_flag = 0
     for i in pdf_list:
+        if not i.endswith("pdf"):
+            continue
         try:
             PdfFileReader(out_dir+i, "rb")
         except:
             print_k_flag=1
             os.remove(out_dir+i)
             print(RED+i, 'is corrupted!. hence deleted'+WHITE)
-    if print_k_flag:
-        print("use -k flag to keep corrupted pdf!")
 
 
 
@@ -150,9 +150,9 @@ parser.add_argument(
     action='store')
 
 parser.add_argument(
-    '-k',
-    help='keep corrupt pdf files',
-    dest='keep_corrupt',
+    '--rm-corrupt',
+    help='remove corrupt pdf files',
+    dest='remove_corrupt',
     action='store_true')
 
 # start
