@@ -113,7 +113,6 @@ def rename_pdf(pdf_list):
             continue
 
 def remove_corrupt_pdf(pdf_list):
-    print_k_flag = 0
     for i in pdf_list:
         if not i.endswith("pdf"):
             continue
