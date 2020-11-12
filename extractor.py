@@ -17,8 +17,10 @@ ver=2.0
 print('Pearson ebook extractor ver',ver,' by Anoop')
 default_dir=os.path.dirname(os.path.abspath(sys.argv[0]))+'/books'
 tmp_dir=os.path.dirname(os.path.abspath(sys.argv[0]))+'/tmp/'
+tmp_book_path='/data/local/tmp/'
 app_android_path="/data/data/com.pearson.android.pulse.elibrary/files/books/"
 app_package_name='com.pearson.android.pulse.elibrary'
+ebook_extensions = (".pdf",".epub")
 
 
 def start_adb_server():
@@ -30,8 +32,7 @@ def start_adb_server():
 
 
 def root():
-    tmp_book_path='/data/local/tmp/'
-    downloaded_list_pc = [i for i in os.listdir(out_dir) if i.endswith(".pdf")]
+    downloaded_list_pc = [i for i in os.listdir(out_dir) if i.endswith(ebook_extensions)]
     downloaded_list_device=subprocess.Popen(['adb','shell',"su -c ls",app_android_path],stdout=subprocess.PIPE,stderr=subprocess.STDOUT)
     downloaded_list_device  = downloaded_list_device.stdout.read().decode().split()
     if not downloaded_list_device:
@@ -119,7 +120,6 @@ def remove_corrupt_pdf(pdf_list):
         try:
             PdfFileReader(out_dir+i, "rb")
         except:
-            print_k_flag=1
             os.remove(out_dir+i)
             print(RED+i, 'is corrupted!. hence deleted'+WHITE)
 
